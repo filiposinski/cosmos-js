@@ -3,6 +3,8 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+
 document.body.appendChild(renderer.domElement);
 
 const colorYellow = new THREE.Color('hsl(40,100%,60%)');
@@ -10,17 +12,36 @@ const colorLight = new THREE.Color('hsl(41,100%,95%)');
 const colorGreen = new THREE.Color('hsl(81, 100%, 24%)');
 const colorShadow = new THREE.Color('hsl(100,100%,0%');
 
-/*const geometry = new THREE.BoxGeometry(6, 6, 6);
+//cubemap - not working
+
+const path = 'image/';
+const format = '.jpg';
+const urls = [
+    path + 'arid2_bk' + format, path + 'arid2_dn' + format,
+    path + 'arid2_ft' + format, path + 'arid2_lf' + format,
+    path + 'arid2_rt' + format, path + 'arid2_up' + format
+];
+
+const reflectionCube = new THREE.CubeTextureLoader().load(urls);
+const refractionCube = new THREE.CubeTextureLoader().load(urls);
+refractionCube.mapping = THREE.CubeRefractionMapping;
+
+scene.background = reflectionCube;
+
+
+//creating cube
+const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshPhongMaterial({
-    color: colorYellow,
+    color: colorLight,
     shininess: 80
 });
 
-console.log('hello');
 const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
-*/
-const torusGeometry = new THREE.TorusGeometry(40, 6, 80, 400);
+
+
+
+const torusGeometry = new THREE.TorusGeometry(40, 10, 80, 400);
 const torusMaterial = new THREE.MeshPhongMaterial({ color: colorGreen, shininess: 50 });
 const torus = new THREE.Mesh(torusGeometry, torusMaterial);
 scene.add(torus);
@@ -35,28 +56,28 @@ const light = new THREE.PointLight(colorLight, 0.1);
 light.position.set(200, 400, 600);
 scene.add(light);
 
-const light2 = new THREE.PointLight(colorShadow, 1);
+const light2 = new THREE.PointLight(colorShadow, 5);
 
-light2.position.z = 0;
-light2.position.y = 0;
-light2.position.x = 0;
+light2.position.z = 1;
+light2.position.y = 1;
+light2.position.x = 1;
 
 scene.add(light2);
 
-camera.position.z = 100;
+camera.position.z = 30;
 
 const animate = function() {
     requestAnimationFrame(animate);
 
-    // cube.rotation.x += 0.01;
-    // cube.rotation.y += 0.01;
+    cube.rotation.x += 0.5;
+    cube.rotation.y += 0.5;
 
     torus.rotation.x += 0.03;
     torus.rotation.y += 0.03;
 
 
-    torusKnot.rotation.x += 0.02;
-    torusKnot.rotation.y += 0.02;
+    torusKnot.rotation.x += 0.01;
+    torusKnot.rotation.y += 0.01;
 
     renderer.render(scene, camera);
 };
