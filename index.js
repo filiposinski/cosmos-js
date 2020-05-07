@@ -8,6 +8,7 @@ document.body.appendChild(renderer.domElement);
 const colorYellow = new THREE.Color('hsl(40,100%,60%)');
 const colorLight = new THREE.Color('hsl(41,100%,95%)');
 const colorPink = new THREE.Color('hsl(306,100%,60%)');
+const colorShadow = new THREE.Color('hsl(100,100%,0%');
 
 /*const geometry = new THREE.BoxGeometry(6, 6, 6);
 const material = new THREE.MeshPhongMaterial({
@@ -20,29 +21,27 @@ const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
 */
 const torusGeometry = new THREE.TorusGeometry(40, 6, 80, 400);
-const torusMaterial = new THREE.MeshBasicMaterial({ color: colorPink });
+const torusMaterial = new THREE.MeshPhongMaterial({ color: colorPink, shininess: 50 });
 const torus = new THREE.Mesh(torusGeometry, torusMaterial);
 scene.add(torus);
 
 const knotGeometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
-const knotMaterial = new THREE.MeshBasicMaterial({ color: colorYellow });
+const knotMaterial = new THREE.MeshPhongMaterial({ color: colorYellow, shininess: 100 });
 const torusKnot = new THREE.Mesh(knotGeometry, knotMaterial);
 scene.add(torusKnot);
 
-const light = new THREE.PointLight(colorLight, 10);
+const light = new THREE.PointLight(colorLight, 0.05);
 
-light.position.z = 20;
-light.position.y = -20;
-light.position.x = -40;
-
-const light2 = new THREE.PointLight(colorLight, 5);
-
-light2.position.z = 10;
-light2.position.y = 20;
-light2.position.x = 40;
-
+light.position.set(200, 400, 600);
 scene.add(light);
-//scene.add(light2);
+
+const light2 = new THREE.PointLight(colorShadow, 2);
+
+light2.position.z = 0;
+light2.position.y = 0;
+light2.position.x = 0;
+
+scene.add(light2);
 
 camera.position.z = 100;
 
@@ -52,8 +51,8 @@ const animate = function() {
     // cube.rotation.x += 0.01;
     // cube.rotation.y += 0.01;
 
-    torus.rotation.x -= 0.03;
-    torus.rotation.y -= 0.03;
+    torus.rotation.x += 0.03;
+    torus.rotation.y += 0.03;
 
 
     torusKnot.rotation.x += 0.02;
