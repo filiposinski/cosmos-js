@@ -7,7 +7,7 @@ document.body.appendChild(renderer.domElement);
 
 const colorYellow = new THREE.Color('hsl(40,100%,60%)');
 const colorLight = new THREE.Color('hsl(41,100%,95%)');
-const colorPink = new THREE.Color('hsl(306,100%,60%)');
+const colorGreen = new THREE.Color('hsl(81, 100%, 24%)');
 const colorShadow = new THREE.Color('hsl(100,100%,0%');
 
 /*const geometry = new THREE.BoxGeometry(6, 6, 6);
@@ -21,7 +21,7 @@ const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
 */
 const torusGeometry = new THREE.TorusGeometry(40, 6, 80, 400);
-const torusMaterial = new THREE.MeshPhongMaterial({ color: colorPink, shininess: 50 });
+const torusMaterial = new THREE.MeshPhongMaterial({ color: colorGreen, shininess: 50 });
 const torus = new THREE.Mesh(torusGeometry, torusMaterial);
 scene.add(torus);
 
@@ -30,12 +30,12 @@ const knotMaterial = new THREE.MeshPhongMaterial({ color: colorYellow, shininess
 const torusKnot = new THREE.Mesh(knotGeometry, knotMaterial);
 scene.add(torusKnot);
 
-const light = new THREE.PointLight(colorLight, 0.05);
+const light = new THREE.PointLight(colorLight, 0.1);
 
 light.position.set(200, 400, 600);
 scene.add(light);
 
-const light2 = new THREE.PointLight(colorShadow, 2);
+const light2 = new THREE.PointLight(colorShadow, 1);
 
 light2.position.z = 0;
 light2.position.y = 0;
