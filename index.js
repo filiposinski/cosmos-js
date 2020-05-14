@@ -1,8 +1,7 @@
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setClearColor("#e5e5e5");
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 
@@ -19,7 +18,6 @@ window.addEventListener('resize', () => {
 const colorYellow = new THREE.Color('hsl(40,100%,60%)');
 const colorLight = new THREE.Color('hsl(41,100%,95%)');
 const colorGreen = new THREE.Color('hsl(81, 100%, 24%)');
-const colorShadow = new THREE.Color('hsl(100,100%,0%');
 
 
 //cubemap below - not working
@@ -37,7 +35,7 @@ refractionCube.mapping = THREE.CubeRefractionMapping;
 
 scene.background = reflectionCube;
 
-*/
+
 //creating cube
 const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshPhongMaterial({
@@ -67,23 +65,73 @@ scene.add(light);
 
 const ambientLight = new THREE.AmbientLight(colorLight);
 scene.add(ambientLight);
+*/
+
+const createSphere = (r = 1, color = 0xffffff) => {
+    const sphereMat = new THREE.MeshPhongMaterial({
+        color,
+        shininess: 50,
+    });
+    const sphereGeo = new THREE.SphereGeometry(r, 20, 20);
+    return new THREE.Mesh(sphereGeo, sphereMat);
+};
+
+const createLight = (i = 1, color = 0xffffff) => {
+    return new THREE.PointLight(color, i);
+};
+
+const nucleus = createSphere(3);
+const l1 = createLight(.8);
+const l2 = createLight(.4, 0xb1e1ff);
+l1.position.set(60, 20, 60);
+l2.position.set(-30, 0, 20);
+
+camera.position.set(0, 0, 50);
+
+scene.add(nucleus, l1);
+nucleus.add(l2);
 
 
+const createElectron = (r = 0.4, color = 0xb1e1ff) => {
+    const sphere = createSphere(r, color);
+    const pivot = new THREE.Object3D();
+    pivot.add(sphere);
+    return {
+        sphere,
+        pivot
+    };
+};
 
-camera.position.z = 100;
+
+const e1 = createElectron(.4);
+const e2 = createElectron(.4);
+const e3 = createElectron(.4);
+const e4 = createElectron(.4);
+e1.sphere.position.set(10, 0, 0);
+e2.sphere.position.set(-10, 0, 0);
+e3.sphere.position.set(5, 0, 0);
+e4.sphere.position.set(-5, 0, 0);
+
+nucleus.add(e1.pivot, e2.pivot, e3.pivot, e4.pivot);
+
+e1.pivot.rotation.y = 120;
+e1.pivot.rotation.y = 60;
+e1.pivot.rotation.y = -60;
+e1.pivot.rotation.y = 90;
+
 
 const animate = function() {
     requestAnimationFrame(animate);
 
-    cube.rotation.x += 0.5;
-    cube.rotation.y += 0.5;
 
-    torus.rotation.x += 0.03;
-    torus.rotation.y += 0.03;
+    e1.pivot.rotation.z += 0.01;
+    e2.pivot.rotation.z += 0.03;
+    e3.pivot.rotation.z += 0.03;
+    e4.pivot.rotation.z += 0.04;
+    nucleus.rotation.z += 0.005;
+    nucleus.rotation.x += 0.008;
+    nucleus.rotation.y += 0.009;
 
-
-    torusKnot.rotation.x += 0.01;
-    torusKnot.rotation.y += 0.01;
 
     renderer.render(scene, camera);
 };
