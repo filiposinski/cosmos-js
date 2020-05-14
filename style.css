@@ -2,7 +2,11 @@ body {
     height: 100vh;
     margin: 0;
     overflow: hidden;
-    background: linear-gradient(midnightblue, black);
+    background: linear-gradient(midnightblue, black), url('image/cosmos.jpg');
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    background-blend-mode: overlay;
 }
 
 canvas {
