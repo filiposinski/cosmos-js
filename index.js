@@ -1,5 +1,5 @@
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -70,7 +70,7 @@ scene.add(ambientLight);
 const createSphere = (r = 1, color = 0xffffff) => {
     const sphereMat = new THREE.MeshPhongMaterial({
         color,
-        shininess: 50,
+        shininess: 30,
     });
     const sphereGeo = new THREE.SphereGeometry(r, 20, 20);
     return new THREE.Mesh(sphereGeo, sphereMat);
@@ -103,14 +103,14 @@ const createElectron = (r = 0.4, color = 0xb1e1ff) => {
 };
 
 
-const e1 = createElectron(.4);
-const e2 = createElectron(.4);
-const e3 = createElectron(.4);
-const e4 = createElectron(.4);
-e1.sphere.position.set(10, 0, 0);
+const e1 = createElectron(.3);
+const e2 = createElectron(.2);
+const e3 = createElectron(.6);
+const e4 = createElectron(.8);
+e1.sphere.position.set(7, 0, 0);
 e2.sphere.position.set(-10, 0, 0);
-e3.sphere.position.set(5, 0, 0);
-e4.sphere.position.set(-5, 0, 0);
+e3.sphere.position.set(15, 0, 0);
+e4.sphere.position.set(-25, 0, 0);
 
 nucleus.add(e1.pivot, e2.pivot, e3.pivot, e4.pivot);
 
@@ -127,10 +127,10 @@ const animate = function() {
     e1.pivot.rotation.z += 0.01;
     e2.pivot.rotation.z += 0.03;
     e3.pivot.rotation.z += 0.03;
-    e4.pivot.rotation.z += 0.04;
-    nucleus.rotation.z += 0.005;
-    nucleus.rotation.x += 0.008;
-    nucleus.rotation.y += 0.009;
+    e4.pivot.rotation.z += 0.001;
+    nucleus.rotation.z += 0.002;
+    nucleus.rotation.x += 0.004;
+    nucleus.rotation.y += 0.003;
 
 
     renderer.render(scene, camera);
